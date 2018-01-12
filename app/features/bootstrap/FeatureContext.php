@@ -33,29 +33,26 @@ class FeatureContext implements Context
     private static $dataSave = [];
     private static $prefix = [];
 
-
-    public static function runChrome()
+    /**
+     * @BeforeScenario
+     */
+    public function BeforeScenario()
     {
-        $range = 0;
-        while (true) {
-            $range++;
-            if ($range > 10) {
-                break;
-            }
-            sleep(3);
-            try {
-                $capabilities = DesiredCapabilities::chrome();
-                self::$webDriver = RemoteWebDriver::create("hub:4444/wd/hub", $capabilities, 90 * 1000, 900 * 1000);
-                self::$webDriver->manage()->window();
-                self::$webDriver->manage()->window()->maximize();
-            } catch (\Exception $e) {
-                print $e->getMessage() . PHP_EOL;
-            }
-            if (self::$webDriver == null) {
-                continue;
-            }
-            break;
-        }
+        $capabilities = DesiredCapabilities::chrome();
+        self::$webDriver = RemoteWebDriver::create("hub:4444/wd/hub", $capabilities, 90 * 1000, 900 * 1000);
+        self::$webDriver->manage()->window();
+        self::$webDriver->manage()->window()->maximize();
+
+    }
+
+    /**
+     * @AfterScenario
+     */
+    public function AfterScenario()
+    {
+        file_put_contents("gen.png", self::$webDriver->takeScreenshot());
+        file_put_contents("gen.html", self::$webDriver->getPageSource());
+        self::$webDriver->quit();
     }
 
     /**
@@ -70,27 +67,6 @@ class FeatureContext implements Context
     {
         return self::$crmUrl;
     }
-
-    /**
-     * @BeforeScenario
-     * @param BeforeScenarioScope $scope
-     */
-    public function BeforeScenario(BeforeScenarioScope $scope)
-    {
-        self::runChrome();
-    }
-
-    /**
-     * @AfterScenario
-     * @param AfterScenarioScope $scope
-     */
-    public function AfterScenario(AfterScenarioScope $scope)
-    {
-        file_put_contents("gen.png", self::$webDriver->takeScreenshot());
-        file_put_contents("gen.html", self::$webDriver->getPageSource());
-        self::$webDriver->quit();
-    }
-
 
     /**
      * @Given /^Generate\/Update prefix for "([^"]*)"$/
@@ -185,12 +161,12 @@ class FeatureContext implements Context
     /**
      * @Given /^Click on email "([^"]*)" in clients table == CRM path: \/clients ==$/
      */
-    public function clickOnEmailInClientsTablePathClients($arg1)
+    public function clickOnEmailInClientsTablePathClients($email)
     {
         if (!is_null(self::$prefix['client_email'])) {
-            $arg1 = self::$prefix['client_email'] . $arg1;
+            $email = self::$prefix['client_email'] . $email;
         }
-        ClientsPageObject::clickOnEmailUserInTable($arg1);
+        ClientsPageObject::clickOnEmailUserInTable($email);
     }
 
     /**
@@ -204,76 +180,76 @@ class FeatureContext implements Context
     /**
      * @Given /^Check that Login credentials contains Default email "([^"]*)" == CRM path: users\/\{id\}\/overview ==$/
      */
-    public function checkThatLoginCredentialsContainsDefaultEmailPathUsersIdOverview($arg1)
+    public function checkThatLoginCredentialsContainsDefaultEmailPathUsersIdOverview($email)
     {
         if (!is_null(self::$prefix['client_email'])) {
-            $arg1 = self::$prefix['client_email'] . $arg1;
+            $email = self::$prefix['client_email'] . $email;
         }
-        UserOverviewPageObject::checkLoginCredentialsDefaultEmail($arg1);
+        UserOverviewPageObject::checkLoginCredentialsDefaultEmail($email);
     }
 
     /**
      * @Given /^Check that Login credentials contains Default phone "([^"]*)" == CRM path: users\/\{id\}\/overview ==$/
      */
-    public function checkThatLoginCredentialsContainsDefaultPhonePathUsersIdOverview($arg1)
+    public function checkThatLoginCredentialsContainsDefaultPhonePathUsersIdOverview($phone)
     {
-        UserOverviewPageObject::checkLoginCredentialsDefaultPhone($arg1);
+        UserOverviewPageObject::checkLoginCredentialsDefaultPhone($phone);
     }
 
     /**
      * @Given /^Check that Personal info contains First name "([^"]*)" == CRM path: users\/\{id\}\/overview ==$/
      */
-    public function checkThatPersonalInfoContainsFirstNamePathUsersIdOverview($arg1)
+    public function checkThatPersonalInfoContainsFirstNamePathUsersIdOverview($firstName)
     {
-        UserOverviewPageObject::checkPersonalInfoFirstName($arg1);
+        UserOverviewPageObject::checkPersonalInfoFirstName($firstName);
     }
 
     /**
      * @Given /^Check that Personal info contains Last name "([^"]*)" == CRM path: users\/\{id\}\/overview ==$/
      */
-    public function checkThatPersonalInfoContainsLastNamePathUsersIdOverview($arg1)
+    public function checkThatPersonalInfoContainsLastNamePathUsersIdOverview($lastName)
     {
-        UserOverviewPageObject::checkPersonalInfoLastName($arg1);
+        UserOverviewPageObject::checkPersonalInfoLastName($lastName);
     }
 
     /**
      * @Given /^Check that Personal info contains Country "([^"]*)" == CRM path: users\/\{id\}\/overview ==$/
      */
-    public function checkThatPersonalInfoContainsCountryPathUsersIdOverview($arg1)
+    public function checkThatPersonalInfoContainsCountryPathUsersIdOverview($country)
     {
-        UserOverviewPageObject::checkPersonalInfoCountry($arg1);
+        UserOverviewPageObject::checkPersonalInfoCountry($country);
     }
 
     /**
      * @Given /^Check that Personal info contains Date of birth "([^"]*)" == CRM path: users\/\{id\}\/overview ==$/
      */
-    public function checkThatPersonalInfoContainsDateOfBirthPathUsersIdOverview($arg1)
+    public function checkThatPersonalInfoContainsDateOfBirthPathUsersIdOverview($dateOfBirth)
     {
-        UserOverviewPageObject::checkPersonalInfoDateOfBirth($arg1);
+        UserOverviewPageObject::checkPersonalInfoDateOfBirth($dateOfBirth);
     }
 
     /**
      * @Given /^Check that Personal info contains City\/Village "([^"]*)" == CRM path: users\/\{id\}\/overview ==$/
      */
-    public function checkThatPersonalInfoContainsCityVillagePathUsersIdOverview($arg1)
+    public function checkThatPersonalInfoContainsCityVillagePathUsersIdOverview($cityVillage)
     {
-        UserOverviewPageObject::checkPersonalInfoCityVillage($arg1);
+        UserOverviewPageObject::checkPersonalInfoCityVillage($cityVillage);
     }
 
     /**
      * @Given /^Check that Personal info contains Region\/District "([^"]*)" == CRM path: users\/\{id\}\/overview ==$/
      */
-    public function checkThatPersonalInfoContainsRegionDistrictPathUsersIdOverview($arg1)
+    public function checkThatPersonalInfoContainsRegionDistrictPathUsersIdOverview($regionDistrict)
     {
-        UserOverviewPageObject::checkPersonalInfoRegionDistrict($arg1);
+        UserOverviewPageObject::checkPersonalInfoRegionDistrict($regionDistrict);
     }
 
     /**
      * @Given /^Check that Name "([^"]*)" contains in left panel  == CRM path: users\/\{id\}\/... ==$/
      */
-    public function checkThatNameContainsInLeftPanelPathUsersIdOverview($arg1)
+    public function checkThatNameContainsInLeftPanelPathUsersIdOverview($firstNameWithLastName)
     {
-        UserPageObject::checkName($arg1);
+        UserPageObject::checkName($firstNameWithLastName);
     }
 
     /**
@@ -295,12 +271,12 @@ class FeatureContext implements Context
     /**
      * @Given /^Send keys "([^"]*)" in email input in client registration popup == CRM path: \/clients ==$/
      */
-    public function sendKeysInEmailInputInClientRegistrationPopupPathClients($arg1)
+    public function sendKeysInEmailInputInClientRegistrationPopupPathClients($email)
     {
         if (!is_null(self::$prefix['client_email'])) {
-            $arg1 = self::$prefix['client_email'] . $arg1;
+            $email = self::$prefix['client_email'] . $email;
         }
-        ClientsPageObject::sendKeysInClientRegistrationPopupEmailInput($arg1);
+        ClientsPageObject::sendKeysInClientRegistrationPopupEmailInput($email);
     }
 
     /**
@@ -322,12 +298,12 @@ class FeatureContext implements Context
     /**
      * @Given /^In success popup label contain email "([^"]*)" == CRM path: \/clients ==$/
      */
-    public function inSuccessPopupLabelContainEmailPathClients($arg1)
+    public function inSuccessPopupLabelContainEmailPathClients($email)
     {
         if (!is_null(self::$prefix['client_email'])) {
-            $arg1 = self::$prefix['client_email'] . $arg1;
+            $email = self::$prefix['client_email'] . $email;
         }
-        ClientsPageObject::checkPopupRegistrationSuccessEmail($arg1);
+        ClientsPageObject::checkPopupRegistrationSuccessEmail($email);
     }
 
     /**
@@ -385,33 +361,33 @@ class FeatureContext implements Context
     /**
      * @Given /^Send keys "([^"]*)" in Name input == CRM path: users\/\{id\}\/profile ==$/
      */
-    public function sendKeysInNameInputPathUsersIdProfile($arg1)
+    public function sendKeysInNameInputPathUsersIdProfile($value)
     {
-        UserProfilePageObject::sendKeysInNameInput($arg1);
+        UserProfilePageObject::sendKeysInNameInput($value);
     }
 
     /**
      * @Given /^Send keys "([^"]*)" in Last Name input == CRM path: users\/\{id\}\/profile ==$/
      */
-    public function sendKeysInLastNameInputPathUsersIdProfile($arg1)
+    public function sendKeysInLastNameInputPathUsersIdProfile($value)
     {
-        UserProfilePageObject::sendKeysInLastNameInput($arg1);
+        UserProfilePageObject::sendKeysInLastNameInput($value);
     }
 
     /**
      * @Given /^Send keys "([^"]*)" in Address input == CRM path: users\/\{id\}\/profile ==$/
      */
-    public function sendKeysInAddressInputPathUsersIdProfile($arg1)
+    public function sendKeysInAddressInputPathUsersIdProfile($value)
     {
-        UserProfilePageObject::sendKeysInAddressInput($arg1);
+        UserProfilePageObject::sendKeysInAddressInput($value);
     }
 
     /**
      * @Given /^Send keys "([^"]*)" in City input == CRM path: users\/\{id\}\/profile ==$/
      */
-    public function sendKeysInCityInputPathUsersIdProfile($arg1)
+    public function sendKeysInCityInputPathUsersIdProfile($value)
     {
-        UserProfilePageObject::sendKeysInCityInput($arg1);
+        UserProfilePageObject::sendKeysInCityInput($value);
     }
 
     /**
@@ -425,9 +401,9 @@ class FeatureContext implements Context
     /**
      * @Given /^Click on Country option "([^"]*)" == CRM path: users/{id}/profile ==$/
      */
-    public function clickOnCountryOption($arg1)
+    public function clickOnCountryOption($value)
     {
-        UserProfilePageObject::clickOnCountryOption($arg1);
+        UserProfilePageObject::clickOnCountryOption($value);
     }
 
     /**
@@ -441,9 +417,9 @@ class FeatureContext implements Context
     /**
      * @Given /^Click on B\-day day option "([^"]*)" == CRM path: users/{id}/profile ==$/
      */
-    public function clickOnBDayDayOption($arg1)
+    public function clickOnBDayDayOption($value)
     {
-        UserProfilePageObject::clickOnBdayDayOption($arg1);
+        UserProfilePageObject::clickOnBdayDayOption($value);
     }
 
     /**
@@ -457,9 +433,9 @@ class FeatureContext implements Context
     /**
      * @Given /^Click on B\-day month option "([^"]*)" == CRM path: users/{id}/profile ==$/
      */
-    public function clickOnBDayMonthOption($arg1)
+    public function clickOnBDayMonthOption($value)
     {
-        UserProfilePageObject::clickOnBdayMonthOption($arg1);
+        UserProfilePageObject::clickOnBdayMonthOption($value);
     }
 
     /**
@@ -473,9 +449,9 @@ class FeatureContext implements Context
     /**
      * @Given /^Click on B\-day year option "([^"]*)" == CRM path: users/{id}/profile ==$/
      */
-    public function clickOnBDayYearOption($arg1)
+    public function clickOnBDayYearOption($value)
     {
-        UserProfilePageObject::clickOnBdayYearOption($arg1);
+        UserProfilePageObject::clickOnBdayYearOption($value);
     }
 
     /**
@@ -545,17 +521,17 @@ class FeatureContext implements Context
     /**
      * @Given /^Click on Subtype option with value "([^"]*)" == CRM path: users\/\{id\}\/documents\/create\-proof\-of\-identity ==$/
      */
-    public function clickOnSubtypeOptionWithValuePathUsersIdDocumentsCreateProofOfIdentity($arg1)
+    public function clickOnSubtypeOptionWithValuePathUsersIdDocumentsCreateProofOfIdentity($value)
     {
-        UserDocumentsAddNewPoiPageObject::clickOnSubtypeOption($arg1);
+        UserDocumentsAddNewPoiPageObject::clickOnSubtypeOption($value);
     }
 
     /**
      * @Given /^Send file in file input "([^"]*)" == CRM path: users\/\{id\}\/documents\/create\-proof\-of\-identity ==$/
      */
-    public function sendFileInFileInputPathUsersIdDocumentsCreateProofOfIdentity($arg1)
+    public function sendFileInFileInputPathUsersIdDocumentsCreateProofOfIdentity($filePath)
     {
-        UserDocumentsAddNewPoiPageObject::sendFileInInput($arg1);
+        UserDocumentsAddNewPoiPageObject::sendFileInInput($filePath);
     }
 
     /**
@@ -569,17 +545,17 @@ class FeatureContext implements Context
     /**
      * @Given /^Check in table "([^"]*)" line == CRM path: users\/\{id\}\/documents ==$/
      */
-    public function checkInTableLinePathUsersIdDocuments($arg1)
+    public function checkInTableLinePathUsersIdDocuments($checkNumberLine)
     {
-        UserDocumentsPageObject::checkNumberTableLine($arg1);
+        UserDocumentsPageObject::checkNumberTableLine($checkNumberLine);
     }
 
     /**
      * @Given /^Check in table "([^"]*)" line with Type "([^"]*)" == CRM path: users\/\{id\}\/documents ==$/
      */
-    public function checkInTableLineWithTypePathUsersIdDocuments($arg1, $arg2)
+    public function checkInTableLineWithTypePathUsersIdDocuments($checkNumberLine, $type)
     {
-        UserDocumentsPageObject::checkNumberTableLineByType($arg1, $arg2);
+        UserDocumentsPageObject::checkNumberTableLineByType($checkNumberLine, $type);
     }
 
     /**
@@ -609,9 +585,9 @@ class FeatureContext implements Context
     /**
      * @Given /^Click on Subtype option with value "([^"]*)" == CRM path: users\/\{id\}\/documents\/create\-proof\-of\-residence ==$/
      */
-    public function clickOnSubtypeOptionWithValuePathUsersIdDocumentsCreateProofOfResidence($arg1)
+    public function clickOnSubtypeOptionWithValuePathUsersIdDocumentsCreateProofOfResidence($value)
     {
-        UserDocumentsAddNewPorPageObject::clickOnSubtypeOption($arg1);
+        UserDocumentsAddNewPorPageObject::clickOnSubtypeOption($value);
     }
 
     /**
@@ -665,9 +641,9 @@ class FeatureContext implements Context
     /**
      * @Given /^Send file in file input "([^"]*)" == CRM path: users\/\{id\}\/documents\/create\-proof\-of\-payment ==$/
      */
-    public function sendFileInFileInputPathUsersIdDocumentsCreateProofOfPayment($arg1)
+    public function sendFileInFileInputPathUsersIdDocumentsCreateProofOfPayment($filePath)
     {
-        UserDocumentsAddNewPopPageObject::sendFileInInput($arg1);
+        UserDocumentsAddNewPopPageObject::sendFileInInput($filePath);
     }
 
     /**
@@ -706,23 +682,23 @@ class FeatureContext implements Context
     /**
      * @Given /^Send keys  "([^"]*)" in login input == MY path: \/login ==$/
      */
-    public function checkIsThisLoginPageMYPathLogin1($arg1)
+    public function checkIsThisLoginPageMYPathLogin1($value)
     {
         if (!is_null(self::$prefix['client_email'])) {
-            $arg1 = self::$prefix['client_email'] . $arg1;
+            $value = self::$prefix['client_email'] . $value;
         }
-        MyLoginPageObject::sendKeysInLoginInput($arg1);
+        MyLoginPageObject::sendKeysInLoginInput($value);
     }
 
     /**
      * @Given /^Send keys in Password input save password "([^"]*)" user == MY path: \/login ==$/
      */
-    public function sendKeysInPasswordInputSavePasswordUserMYPathLogin($arg1)
+    public function sendKeysInPasswordInputSavePasswordUserMYPathLogin($user)
     {
         if (!is_null(self::$prefix['client_email'])) {
-            $arg1 = self::$prefix['client_email'] . $arg1;
+            $user = self::$prefix['client_email'] . $user;
         }
-        $password = self::$dataSave['user_login_info'][$arg1];
+        $password = self::$dataSave['user_login_info'][$user];
         MyLoginPageObject::sendKeysInPasswordInput($password);
     }
 
@@ -737,98 +713,98 @@ class FeatureContext implements Context
     /**
      * @Given /^Check that in the Name input value "([^"]*)" == MY path: \/profile\/edit ==$/
      */
-    public function checkThatInTheNameInputValueMYPathProfileEdit($arg1)
+    public function checkThatInTheNameInputValueMYPathProfileEdit($name)
     {
-        Assert::that(ProfileEditPageObject::getNameInputValue())->eq($arg1);
+        Assert::that(ProfileEditPageObject::getNameInputValue())->eq($name);
 
     }
 
     /**
      * @Given /^Check that in the Surname input value "([^"]*)" == MY path: \/profile\/edit ==$/
      */
-    public function checkThatInTheSurnameInputValueMYPathProfileEdit($arg1)
+    public function checkThatInTheSurnameInputValueMYPathProfileEdit($surname)
     {
-        Assert::that(ProfileEditPageObject::getSurnameInputValue())->eq($arg1);
+        Assert::that(ProfileEditPageObject::getSurnameInputValue())->eq($surname);
     }
 
     /**
      * @Given /^Check that in the City\/Town input value "([^"]*)" == MY path: \/profile\/edit ==$/
      */
-    public function checkThatInTheCityTownInputValueMYPathProfileEdit($arg1)
+    public function checkThatInTheCityTownInputValueMYPathProfileEdit($cityTown)
     {
-        Assert::that(ProfileEditPageObject::getCityInputValue())->eq($arg1);
+        Assert::that(ProfileEditPageObject::getCityInputValue())->eq($cityTown);
     }
 
     /**
      * @Given /^Check that in the Address input value "([^"]*)" == MY path: \/profile\/edit ==$/
      */
-    public function checkThatInTheAddressInputValueMYPathProfileEdit($arg1)
+    public function checkThatInTheAddressInputValueMYPathProfileEdit($address)
     {
-        Assert::that(ProfileEditPageObject::getAddressInputValue())->eq($arg1);
+        Assert::that(ProfileEditPageObject::getAddressInputValue())->eq($address);
     }
 
     /**
      * @Given /^Check that in the Day select value "([^"]*)" == MY path: \/profile\/edit ==$/
      */
-    public function checkThatInTheDaySelectValueMYPathProfileEdit($arg1)
+    public function checkThatInTheDaySelectValueMYPathProfileEdit($day)
     {
-        Assert::that(ProfileEditPageObject::getDateDaySelectedValue())->eq($arg1);
+        Assert::that(ProfileEditPageObject::getDateDaySelectedValue())->eq($day);
     }
 
     /**
      * @Given /^Check that in the Month select value "([^"]*)" == MY path: \/profile\/edit ==$/
      */
-    public function checkThatInTheMonthSelectValueMYPathProfileEdit($arg1)
+    public function checkThatInTheMonthSelectValueMYPathProfileEdit($month)
     {
-        Assert::that(ProfileEditPageObject::getDateMonthSelectedValue())->eq($arg1);
+        Assert::that(ProfileEditPageObject::getDateMonthSelectedValue())->eq($month);
     }
 
     /**
      * @Given /^Check that in the Year select value "([^"]*)" == MY path: \/profile\/edit ==$/
      */
-    public function checkThatInTheYearSelectValueMYPathProfileEdit($arg1)
+    public function checkThatInTheYearSelectValueMYPathProfileEdit($year)
     {
-        Assert::that(ProfileEditPageObject::getDateYearSelectedValue())->eq($arg1);
+        Assert::that(ProfileEditPageObject::getDateYearSelectedValue())->eq($year);
     }
 
     /**
      * @Given /^Check that in the Country select value "([^"]*)" == MY path: \/profile\/edit ==$/
      */
-    public function checkThatInTheCountrySelectValueMYPathProfileEdit($arg1)
+    public function checkThatInTheCountrySelectValueMYPathProfileEdit($country)
     {
-        Assert::that(ProfileEditPageObject::getCountrySelectedValue())->eq($arg1);
+        Assert::that(ProfileEditPageObject::getCountrySelectedValue())->eq($country);
     }
 
     /**
      * @Given /^Send keys "([^"]*)" in Name input == MY path: \/profile\/edit =$/
      */
-    public function sendKeysInNameInputMYPathProfileEdit($arg1)
+    public function sendKeysInNameInputMYPathProfileEdit($name)
     {
-       ProfileEditPageObject::sendKeysInNameInput($arg1);
+        ProfileEditPageObject::sendKeysInNameInput($name);
     }
 
     /**
      * @Given /^Send keys "([^"]*)" in Surname input == MY path: \/profile\/edit =$/
      */
-    public function sendKeysInLastNameInputMYPathProfileEdit($arg1)
+    public function sendKeysInLastNameInputMYPathProfileEdit($surname)
     {
-        ProfileEditPageObject::sendKeysInSurnameInput($arg1);
+        ProfileEditPageObject::sendKeysInSurnameInput($surname);
     }
 
     /**
      * @Given /^Send keys "([^"]*)" in Address input == MY path: \/profile\/edit =$/
      */
-    public function sendKeysInAddressInputMYPathProfileEdit($arg1)
+    public function sendKeysInAddressInputMYPathProfileEdit($address)
     {
-        ProfileEditPageObject::sendKeysInAddressInput($arg1);
+        ProfileEditPageObject::sendKeysInAddressInput($address);
     }
 
     /**
      * @Given /^Send keys "([^"]*)" in City input == MY path: \/profile\/edit =$/
      */
-    public function sendKeysInCityInputMYPathProfileEdit($arg1)
+    public function sendKeysInCityInputMYPathProfileEdit($city)
     {
-        ProfileEditPageObject::sendKeysInCityInput($arg1);
+        ProfileEditPageObject::sendKeysInCityInput($city);
     }
 
     /**
@@ -842,9 +818,9 @@ class FeatureContext implements Context
     /**
      * @Given /^Click on Country option "([^"]*)" == MY path: \/profile\/edit =$/
      */
-    public function clickOnCountryOptionMYPathProfileEdit($arg1)
+    public function clickOnCountryOptionMYPathProfileEdit($value)
     {
-        ProfileEditPageObject::clickOnCountryOption($arg1);
+        ProfileEditPageObject::clickOnCountryOption($value);
     }
 
     /**
@@ -858,9 +834,9 @@ class FeatureContext implements Context
     /**
      * @Given /^Click on B\-day day option "([^"]*)"  == MY path: \/profile\/edit =$/
      */
-    public function clickOnBDayDayOptionMYPathProfileEdit($arg1)
+    public function clickOnBDayDayOptionMYPathProfileEdit($value)
     {
-        ProfileEditPageObject::clickOnBDayOption($arg1);
+        ProfileEditPageObject::clickOnBDayOption($value);
     }
 
     /**
@@ -874,9 +850,9 @@ class FeatureContext implements Context
     /**
      * @Given /^Click on B\-day month option "([^"]*)"  == MY path: \/profile\/edit =$/
      */
-    public function clickOnBDayMonthOptionMYPathProfileEdit($arg1)
+    public function clickOnBDayMonthOptionMYPathProfileEdit($value)
     {
-        ProfileEditPageObject::clickOnBMonthOption($arg1);
+        ProfileEditPageObject::clickOnBMonthOption($value);
     }
 
     /**
@@ -890,9 +866,9 @@ class FeatureContext implements Context
     /**
      * @Given /^Click on B\-day year option "([^"]*)" == MY path: \/profile\/edit =$/
      */
-    public function clickOnBDayYearOptionMYPathProfileEdit($arg1)
+    public function clickOnBDayYearOptionMYPathProfileEdit($value)
     {
-        ProfileEditPageObject::clickOnBYearOption($arg1);
+        ProfileEditPageObject::clickOnBYearOption($value);
     }
 
     /**
