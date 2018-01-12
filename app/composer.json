@@ -1,0 +1,17 @@
+{
+  "name": "root/ifa_ta",
+  "require": {
+    "behat/behat": "^3.3",
+    "facebook/webdriver": "^1.2",
+    "beberlei/assert": "^2.8"
+  },
+  "config": {
+    "bin-dir": "bin/"
+  },
+  "authors": [
+    {
+      "name": "Victor Lapytsko",
+      "email": "v.lapytsko@smartdesign.by"
+    }
+  ]
+}
