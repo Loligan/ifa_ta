@@ -1,7 +1,8 @@
+@crm @client
 Feature: CRM - update profile client
 
   Background:
-    And Create user by API == API ==
+    Given Create user by API == API ==
     And Open Login page == CRM path: /login ==
     And Check is this Login page == CRM path: /login ==
     And Send keys in Username input create username api data == CRM path: /login ==
@@ -18,9 +19,9 @@ Feature: CRM - update profile client
     And Press [Close button] == CRM path: /clients ==
     And Refresh page
 
-  @crm @client @positive
+  @positive
   Scenario Outline: Update profile client
-    And Click on email "ta@mail.com" in clients table == CRM path: /clients ==
+    When Click on email "ta@mail.com" in clients table == CRM path: /clients ==
     And Check on Overview Client Page == CRM path: /clients ==
     And Check that Login credentials contains Default email "ta@mail.com" == CRM path: users/{id}/overview ==
     And Check that Personal info contains Date of birth "01 / 01 / 1970" == CRM path: users/{id}/overview ==
@@ -39,7 +40,7 @@ Feature: CRM - update profile client
     And Click on B-day year select == CRM path: users/{id}/profile ==
     And Click on B-day year option "<b-year>" == CRM path: users/{id}/profile ==
     And Click on [Save] button == CRM path: users/{id}/profile ==
-    And Show save success label == CRM path: users/{id}/profile ==
+    Then Show save success label == CRM path: users/{id}/profile ==
     And Check that Name "<name> <last-name>" contains in left panel  == CRM path: users/{id}/... ==
     And  Click on [Overview] button on left panel == CRM path: users/{id}/...==
     And Check that Name "<name> <last-name>" contains in left panel  == CRM path: users/{id}/... ==

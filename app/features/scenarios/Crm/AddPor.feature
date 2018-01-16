@@ -1,7 +1,8 @@
+@crm @client @por
 Feature: CRM - Add POR
 
   Background:
-    And Create user by API == API ==
+    Given Create user by API == API ==
     And Open Login page == CRM path: /login ==
     And Check is this Login page == CRM path: /login ==
     And Send keys in Username input create username api data == CRM path: /login ==
@@ -23,15 +24,15 @@ Feature: CRM - Add POR
     And Click on [Documents] button on left panel == CRM path: users/{id}/... ==
     And Check on Documents page == CRM path: users/{id}/documents ==
 
-  @crm @client @positive @por
+  @positive
   Scenario Outline: Add POR
-    And Click on [Add new POR] tab == CRM path: users/{id}/documents/... ==
+    When Click on [Add new POR] tab == CRM path: users/{id}/documents/... ==
     And Check on Add new POR page == CRM path: users/{id}/documents/create-proof-of-residence ==
     And Send file in file input "<file>" == CRM path: users/{id}/documents/create-proof-of-residence ==
     And Click on Subtype select == CRM path: users/{id}/documents/create-proof-of-residence ==
     And Click on Subtype option with value "<subtype>" == CRM path: users/{id}/documents/create-proof-of-residence ==
     And Click on [Save] button == CRM path: users/{id}/documents/create-proof-of-residence ==
-    And Check on Documents page == CRM path: users/{id}/documents ==
+    Then Check on Documents page == CRM path: users/{id}/documents ==
     And Check in table "1" line == CRM path: users/{id}/documents ==
     And Check in table "1" line with Type "Proof of residence | <subtype>" == CRM path: users/{id}/documents ==
     Examples:

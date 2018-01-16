@@ -79,9 +79,11 @@ class PageObject
         self::clickOnElement($elements[0]);
     }
 
-    protected static function findElementAndSendKey($xpath, $data, $clearInput = true)
+    protected static function findElementAndSendKey($xpath, $data, $clearInput = true, $isShow = true)
     {
-        self::waitShow($xpath);
+        if ($isShow) {
+            self::waitShow($xpath);
+        }
         $elements = FeatureContext::getWebDriver()->findElements(WebDriverBy::xpath($xpath));
         $circle = 0;
         while (true) {

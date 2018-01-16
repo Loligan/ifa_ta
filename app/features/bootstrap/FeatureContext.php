@@ -18,7 +18,9 @@ use PageObject\Crm\Users\UserDocumentsTabPageObject;
 use PageObject\Crm\Users\UserOverviewPageObject;
 use PageObject\Crm\Users\UserPageObject;
 use PageObject\Crm\Users\UserProfilePageObject;
+use PageObject\My\Profile\ProfileBillingPageObject;
 use PageObject\My\Profile\ProfileEditPageObject;
+use PageObject\My\Profile\ProfileMenuPageObject;
 
 class FeatureContext implements Context
 {
@@ -391,7 +393,7 @@ class FeatureContext implements Context
     }
 
     /**
-     * @Given /^Click on Country select == CRM path: users/{id}/profile ==$/
+     * @Given /^Click on Country select == CRM path: users\/\{id\}\/profile ==$/
      */
     public function clickOnCountrySelect()
     {
@@ -399,7 +401,7 @@ class FeatureContext implements Context
     }
 
     /**
-     * @Given /^Click on Country option "([^"]*)" == CRM path: users/{id}/profile ==$/
+     * @Given /^Click on Country option "([^"]*)" == CRM path: users\/\{id\}\/profile ==$/
      */
     public function clickOnCountryOption($value)
     {
@@ -407,7 +409,7 @@ class FeatureContext implements Context
     }
 
     /**
-     * @Given /^Click on B\-day day select == CRM path: users/{id}/profile ==$/
+     * @Given /^Click on B\-day day select == CRM path: users\/\{id\}\/profile ==$/
      */
     public function clickOnBDayDaySelect()
     {
@@ -415,7 +417,7 @@ class FeatureContext implements Context
     }
 
     /**
-     * @Given /^Click on B\-day day option "([^"]*)" == CRM path: users/{id}/profile ==$/
+     * @Given /^Click on B\-day day option "([^"]*)" == CRM path: users\/\{id\}\/profile ==$/
      */
     public function clickOnBDayDayOption($value)
     {
@@ -423,7 +425,7 @@ class FeatureContext implements Context
     }
 
     /**
-     * @Given /^Click on B\-day month select == CRM path: users/{id}/profile ==$/
+     * @Given /^Click on B\-day month select == CRM path: users\/\{id\}\/profile ==$/
      */
     public function clickOnBDayMonthSelect()
     {
@@ -431,7 +433,7 @@ class FeatureContext implements Context
     }
 
     /**
-     * @Given /^Click on B\-day month option "([^"]*)" == CRM path: users/{id}/profile ==$/
+     * @Given /^Click on B\-day month option "([^"]*)" == CRM path: users\/\{id\}\/profile ==$/
      */
     public function clickOnBDayMonthOption($value)
     {
@@ -439,7 +441,7 @@ class FeatureContext implements Context
     }
 
     /**
-     * @Given /^Click on B\-day year select == CRM path: users/{id}/profile ==$/
+     * @Given /^Click on B\-day year select == CRM path: users\/\{id\}\/profile ==$/
      */
     public function clickOnBDayYearSelect()
     {
@@ -447,7 +449,7 @@ class FeatureContext implements Context
     }
 
     /**
-     * @Given /^Click on B\-day year option "([^"]*)" == CRM path: users/{id}/profile ==$/
+     * @Given /^Click on B\-day year option "([^"]*)" == CRM path: users\/\{id\}\/profile ==$/
      */
     public function clickOnBDayYearOption($value)
     {
@@ -455,7 +457,7 @@ class FeatureContext implements Context
     }
 
     /**
-     * @Given /^Click on \[Save\] button == CRM path: users/{id}/profile ==$/
+     * @Given /^Click on \[Save\] button == CRM path: users\/\{id\}\/profile ==$/
      */
     public function clickOnSaveButton()
     {
@@ -463,7 +465,7 @@ class FeatureContext implements Context
     }
 
     /**
-     * @Given /^Show save success label == CRM path: users/{id}/profile ==$/
+     * @Given /^Show save success label == CRM path: users\/\{id\}\/profile ==$/
      */
     public function showSaveSuccessLabel()
     {
@@ -660,6 +662,7 @@ class FeatureContext implements Context
     public function openLoginPageMYPathLogin()
     {
         MyLoginPageObject::openUrlLoginPage(self::$myUrl);
+
     }
 
     /**
@@ -878,5 +881,355 @@ class FeatureContext implements Context
     {
         ProfileEditPageObject::clickOnUpdateProfileButton();
     }
+
+    /**
+     * @Given /^Click on Billing tab in profile menu == MY path: \/profile\/\.\.\. =$/
+     */
+    public function clickOnBillingTabInProfileMenuMYPathProfile()
+    {
+        ProfileMenuPageObject::clickOnBillingTab();
+    }
+
+    /**
+     * @Given /^Check in Profile Billing page == MY path: \/profile\/billing ==$/
+     */
+    public function checkInProfileBillingPageMYPathProfileBilling()
+    {
+        ProfileBillingPageObject::checkOnPage();
+    }
+
+    /**
+     * @Given /^Send keys "([^"]*)" in Bank name input == MY path: \/profile\/billing ==$/
+     */
+    public function sendKeysInBankNameInputMYPathProfileBilling($value)
+    {
+        ProfileBillingPageObject::sendKeysInBankNameInput($value);
+    }
+
+    /**
+     * @Given /^Send keys "([^"]*)" in Swift code input == MY path: \/profile\/billing ==$/
+     */
+    public function sendKeysInSwiftCodeInputMYPathProfileBilling($value)
+    {
+        ProfileBillingPageObject::sendKeysInBankSwiftCodeInput($value);
+    }
+
+    /**
+     * @Given /^Click on Bank country select  == MY path: \/profile\/billing ==$/
+     */
+    public function clickOnBankCountrySelectMYPathProfileBilling()
+    {
+        ProfileBillingPageObject::clickOnBankCountrySelect();
+    }
+
+    /**
+     * @Given /^Click on Bank country option "([^"]*)" == MY path: \/profile\/billing ==$/
+     */
+    public function clickOnBankCountryOptionMYPathProfileBilling($value)
+    {
+        ProfileBillingPageObject::clickOnBankCountryOption($value);
+    }
+
+    /**
+     * @Given /^Send keys "([^"]*)" in Bank city input == MY path: \/profile\/billing ==$/
+     */
+    public function sendKeysInBankCityInputMYPathProfileBilling($value)
+    {
+        ProfileBillingPageObject::sendKeysInBankCityInput($value);
+    }
+
+    /**
+     * @Given /^Send keys "([^"]*)" in Bank address input == MY path: \/profile\/billing ==$/
+     */
+    public function sendKeysInBankAddressInputMYPathProfileBilling($value)
+    {
+        ProfileBillingPageObject::sendKeysInBankAddressInput($value);
+    }
+
+    /**
+     * @Given /^Send keys "([^"]*)" in Account number input == MY path: \/profile\/billing ==$/
+     */
+    public function sendKeysInAccountNumberInputMYPathProfileBilling($value)
+    {
+        ProfileBillingPageObject::sendKeysInBankAccountNumberInput($value);
+    }
+
+    /**
+     * @Given /^Send keys "([^"]*)" in IBAN input == MY path: \/profile\/billing ==$/
+     */
+    public function sendKeysInIBANInputMYPathProfileBilling($value)
+    {
+        ProfileBillingPageObject::sendKeysInBankIbanInput($value);
+    }
+
+    /**
+     * @Given /^Send keys "([^"]*)" in Beneficiary Full name input == MY path: \/profile\/billing ==$/
+     */
+    public function sendKeysInBeneficiaryFullNameInputMYPathProfileBilling($value)
+    {
+        ProfileBillingPageObject::sendKeysInBankBeneficiaryFullNameInput($value);
+    }
+
+    /**
+     * @Given /^Click on \[Save\] Bank button == MY path: \/profile\/billing ==$/
+     */
+    public function clickOnSaveBankButtonMYPathProfileBilling()
+    {
+        ProfileBillingPageObject::clickOnBankSaveButton();
+    }
+
+    /**
+     * @Given /^Click on \[Add bank\] button == MY path: \/profile\/billing ==$/
+     */
+    public function clickOnAddBankButtonMYPathProfileBilling()
+    {
+        ProfileBillingPageObject::clickOnBankAddButton();
+    }
+
+    /**
+     * @Given /^Check Waiting for verification bank "([^"]*)" == MY path: \/profile\/billing ==$/
+     */
+    public function checkWaitingForVerificationBankMYPathProfileBilling($bankName)
+    {
+        ProfileBillingPageObject::checkWatingForVerificationStatusBankInTourBanksBlock($bankName);
+    }
+
+    /**
+     * @Given /^Check bank Swift code in save block "([^"]*)" for bank "([^"]*)" == MY path: \/profile\/billing ==$/
+     */
+    public function checkBankSwiftCodeInSaveBlockForBankMYPathProfileBilling($value, $bankName)
+    {
+        ProfileBillingPageObject::checkSwiftCodeInYourBanksBlock($bankName, $value);
+    }
+
+    /**
+     * @Given /^Check bank Bank country in save block "([^"]*)" for bank "([^"]*)" == MY path: \/profile\/billing ==$/
+     */
+    public function checkBankBankCountryInSaveBlockForBankMYPathProfileBilling($value, $bankName)
+    {
+        ProfileBillingPageObject::checkBankCountryInYourBanksBlock($bankName, $value);
+    }
+
+    /**
+     * @Given /^Check bank Bank city in save block "([^"]*)" for bank "([^"]*)" == MY path: \/profile\/billing ==$/
+     */
+    public function checkBankBankCityInSaveBlockForBankMYPathProfileBilling($value, $bankName)
+    {
+        ProfileBillingPageObject::checkBankCityInYourBanksBlock($bankName, $value);
+    }
+
+    /**
+     * @Given /^Check bank Bank address in save block "([^"]*)" for bank "([^"]*)" == MY path: \/profile\/billing ==$/
+     */
+    public function checkBankBankAddressInSaveBlockForBankMYPathProfileBilling($value, $bankName)
+    {
+        ProfileBillingPageObject::checkBankAddressInYourBanksBlock($bankName, $value);
+    }
+
+    /**
+     * @Given /^Check bank Account number in save block "([^"]*)" for bank "([^"]*)" == MY path: \/profile\/billing ==$/
+     */
+    public function checkBankAccountNumberInSaveBlockForBankMYPathProfileBilling($value, $bankName)
+    {
+        ProfileBillingPageObject::checkAccountNumberInYourBanksBlock($bankName, $value);
+    }
+
+    /**
+     * @Given /^Check bank IBAN in save block "([^"]*)" for bank "([^"]*)" == MY path: \/profile\/billing ==$/
+     */
+    public function checkBankIBANInSaveBlockForBankMYPathProfileBilling($value, $bankName)
+    {
+        ProfileBillingPageObject::checkIBANInYourBanksBlock($bankName, $value);
+    }
+
+    /**
+     * @Given /^Check bank Beneficiary Full name in save block "([^"]*)" for bank "([^"]*)" == MY path: \/profile\/billing ==$/
+     */
+    public function checkBankBeneficiaryFullNameInSaveBlockForBankMYPathProfileBilling($value, $bankName)
+    {
+        ProfileBillingPageObject::checkBeneficiaryFullNameInYourBanksBlock($bankName, $value);
+    }
+
+    /**
+     * @Given /^Click on \[Add new credit card\] button == MY path: \/profile\/billing ==$/
+     */
+    public function clickOnAddNewCreditCardButtonMYPathProfileBilling()
+    {
+        ProfileBillingPageObject::clickOnCardAddButton();
+    }
+
+    /**
+     * @Given /^Click on select Type credit card == MY path: \/profile\/billing ==$/
+     */
+    public function clickOnSelectTypeCreditCardMYPathProfileBilling()
+    {
+        ProfileBillingPageObject::clickOnCardTypeSelect();
+    }
+
+    /**
+     * @Given /^Click on option "([^"]*)" Type credit card == MY path: \/profile\/billing ==$/
+     */
+    public function clickOnOptionTypeCreditCardMYPathProfileBilling($value)
+    {
+        ProfileBillingPageObject::clickOnCardTypeOption($value);
+    }
+
+    /**
+     * @Given /^Send keys "([^"]*)" in Card holder name input == MY path: \/profile\/billing ==$/
+     */
+    public function sendKeysInCardHolderNameInputMYPathProfileBilling($value)
+    {
+        ProfileBillingPageObject::sendKeysInCardHolderNameInput($value);
+    }
+
+    /**
+     * @Given /^Send keys "([^"]*)" in Card number input == MY path: \/profile\/billing ==$/
+     */
+    public function sendKeysInCardNumberInputMYPathProfileBilling($value)
+    {
+        ProfileBillingPageObject::sendKeysInCardNumberInput($value);
+    }
+
+    /**
+     * @Given /^Click on select expiration date month == MY path: \/profile\/billing ==$/
+     */
+    public function clickOnSelectExpirationDateMonthMYPathProfileBilling()
+    {
+        ProfileBillingPageObject::clickOnCardExpirationDateMonthSelect();
+    }
+
+    /**
+     * @Given /^Click on option "([^"]*)" expiration date month == MY path: \/profile\/billing ==$/
+     */
+    public function clickOnOptionExpirationDateMonthMYPathProfileBilling($value)
+    {
+        ProfileBillingPageObject::clickOnCardExpirationDateMonthOption($value);
+    }
+
+    /**
+     * @Given /^Click on select expiration date year == MY path: \/profile\/billing ==$/
+     */
+    public function clickOnSelectExpirationDateYearMYPathProfileBilling()
+    {
+        ProfileBillingPageObject::clickOnCardExpirationDateYearSelect();
+    }
+
+    /**
+     * @Given /^Click on option "([^"]*)" expiration date year == MY path: \/profile\/billing ==$/
+     */
+    public function clickOnOptionExpirationDateYearMYPathProfileBilling($value)
+    {
+        ProfileBillingPageObject::clickOnCardExpirationDateYearOption($value);
+    }
+
+    /**
+     * @Given /^Send keys "([^"]*)" in CVV number input == MY path: \/profile\/billing ==$/
+     */
+    public function sendKeysInCVVNumberInputMYPathProfileBilling($value)
+    {
+        ProfileBillingPageObject::sendKeysInCardCvvNumberInput($value);
+    }
+
+
+    /**
+     * @Given /^Send file "([^"]*)" in Front cover input == MY path: \/profile\/billing ==$/
+     */
+    public function sendFileInFrontCoverInputMYPathProfileBilling($value)
+    {
+        ProfileBillingPageObject::sendKeysInFrontCoverFileInput($value);
+    }
+
+    /**
+     * @Given /^Send file "([^"]*)" in Back cover input == MY path: \/profile\/billing ==$/
+     */
+    public function sendFileInBackCoverInputMYPathProfileBilling($value)
+    {
+        ProfileBillingPageObject::sendKeysInBackCoverFileInput($value);
+    }
+
+    /**
+     * @Given /^Click on \[Save and verify\] credit card button == MY path: \/profile\/billing ==$/
+     */
+    public function clickOnSaveAndVerifyCreditCardButtonMYPathProfileBilling()
+    {
+        ProfileBillingPageObject::clickOnSaveAndVerifyButton();
+    }
+
+    /**
+     * @Given /^Check status "Waiting for verification" for card "([^"]*)" == MY path: \/profile\/billing ==$/
+     */
+    public function checkStatusForCardMYPathProfileBilling($shortCardNumber)
+    {
+        ProfileBillingPageObject::checkStatusWaitingForVerificationCardInCardBlock($shortCardNumber);
+    }
+
+    /**
+     * @Given /^Check Type "([^"]*)" for card "([^"]*)" == MY path: \/profile\/billing ==$/
+     */
+    public function checkTypeForCardMYPathProfileBilling($value, $shortCardNumber)
+    {
+        ProfileBillingPageObject::checkTypeCardInCardBlock($shortCardNumber, $value);
+    }
+
+    /**
+     * @Given /^Check Card holder name "([^"]*)" for card "([^"]*)" == MY path: \/profile\/billing ==$/
+     */
+    public function checkCardHolderNameForCardMYPathProfileBilling($value, $shortCardNumber)
+    {
+        ProfileBillingPageObject::checkCardHolderNameCardBlock($shortCardNumber, $value);
+    }
+
+    /**
+     * @Given /^Check Expiration date "([^"]*)" for card "([^"]*)" == MY path: \/profile\/billing ==$/
+     */
+    public function checkExpirationDateForCardMYPathProfileBilling($value, $shortCardNumber)
+    {
+        ProfileBillingPageObject::checkExpirationDateCardBlock($shortCardNumber, $value);
+    }
+
+    /**
+     * @Given /^Check Related email "([^"]*)" for card "([^"]*)" == MY path: \/profile\/billing ==$/
+     */
+    public function checkRelatedEmailForCardMYPathProfileBilling($value, $shortCardNumber)
+    {
+        if (!is_null(self::$prefix['client_email'])) {
+            $value = self::$prefix['client_email'] . $value;
+        }
+
+        ProfileBillingPageObject::checkRelatedEmailCardBlock($shortCardNumber, $value);
+    }
+
+    /**
+     * @Given /^Check md5 file "([^"]*)" and md5 file front cover for card "([^"]*)" == MY path: \/profile\/billing ==$/
+     */
+    public function checkMdfileAndMdfileFrontCoverForCardMYPathProfileBilling($value, $shortCardNumber)
+    {
+        ProfileBillingPageObject::checkFrontCoverFileCardBlock($shortCardNumber, $value);
+    }
+
+    /**
+     * @Given /^Check md5 file "([^"]*)" and md5 file back cover for card "([^"]*)" == MY path: \/profile\/billing ==$/
+     */
+    public function checkMdfileAndMdfileBackCoverForCardMYPathProfileBilling($value, $shortCardNumber)
+    {
+        ProfileBillingPageObject::checkBackCoverFileCardBlock($shortCardNumber, $value);
+    }
+
+    /**
+     * @Given /^On page "([^"]*)" card in Your credit cards block == MY path: \/profile\/billing ==$/
+     */
+    public function onPageCardInYourCreditCardsBlockMYPathProfileBilling($checkNumber)
+    {
+        ProfileBillingPageObject::checkNumberCardsInBlockYourCreditCards($checkNumber);
+    }
+
+    /**
+     * @Given /^On page "([^"]*)" bank in Your banks block == MY path: \/profile\/billing ==$/
+     */
+    public function onPageBankInYourBanksBlockMYPathProfileBilling($checkNumber)
+    {
+        ProfileBillingPageObject::checkNumberBanksInBlockYourBanks($checkNumber);
+    }
+
 
 }

@@ -1,3 +1,4 @@
+@crm @client @poi
 Feature: CRM - Add POI
 
   Background:
@@ -23,15 +24,15 @@ Feature: CRM - Add POI
     And Click on [Documents] button on left panel == CRM path: users/{id}/... ==
     And Check on Documents page == CRM path: users/{id}/documents ==
 
-  @crm @client @positive @poi @gg
+  @positive
   Scenario Outline: Add POI
-    And Click on [Add new POI] tab == CRM path: users/{id}/documents/... ==
+    When Click on [Add new POI] tab == CRM path: users/{id}/documents/... ==
     And Check on Add new POI page == CRM path: users/{id}/documents/create-proof-of-identity ==
     And Send file in file input "<file>" == CRM path: users/{id}/documents/create-proof-of-identity ==
     And Click on Subtype select == CRM path: users/{id}/documents/create-proof-of-identity ==
     And Click on Subtype option with value "<subtype>" == CRM path: users/{id}/documents/create-proof-of-identity ==
     And Click on [Save] button == CRM path: users/{id}/documents/create-proof-of-identity ==
-    And Check on Documents page == CRM path: users/{id}/documents ==
+    Then Check on Documents page == CRM path: users/{id}/documents ==
     And Check in table "1" line == CRM path: users/{id}/documents ==
     And Check in table "1" line with Type "Proof of identity | <subtype>" == CRM path: users/{id}/documents ==
     Examples:
@@ -39,6 +40,6 @@ Feature: CRM - Add POI
       | img/838B.jpg  | Civil ID card         |
       | img/838B.jpg  | Passport              |
       | img/838B.jpg  | Residence permit card |
-      | img/895B.gif | Civil ID card         |
+      | img/895B.gif  | Civil ID card         |
       | img/73B.png   | Civil ID card         |
       | img/9217B.bmp | Civil ID card         |

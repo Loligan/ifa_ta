@@ -6,7 +6,7 @@ use PageObject\PageObject;
 
 class ProfileEditPageObject extends PageObject
 {
-    const PATH_REGEX = '/(\/profile/edit$)/';
+    const PATH_REGEX = '/(\/profile\/edit$)/';
     const DATE_DAY_SELECT = './/select[@id="edit_birthDay"]';
     const DATE_DAY_OPTION = './/select[@id="edit_birthDay"]/option[text()="VALUE"]';
 
@@ -21,8 +21,8 @@ class ProfileEditPageObject extends PageObject
 
     const NAME_INPUT = './/*[@id="edit_name"]';
     const SURNAME_INPUT = './/*[@id="edit_surname"]';
-    const CITY_INPUT = './/*[@edit_city]';
-    const ADDRESS_INPUT = './/*[@edit_address]';
+    const CITY_INPUT = './/*[@id="edit_city"]';
+    const ADDRESS_INPUT = './/*[@id="edit_address"]';
     const UPDATE_PROFILE_BUTTON = './/*[@id="edit_submit"]';
 
     public static function checkOnPage()
